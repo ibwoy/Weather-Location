@@ -10,6 +10,8 @@ public class ResponseParser
 {
     private String jsonResult;
 
+
+
     public ResponseParser(Connection connection)
     {
         connection.init();
