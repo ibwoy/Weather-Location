@@ -5,12 +5,12 @@ package mai.uom.weather.location;
  */
 public class Coordinates
 {
-    private String lat, lot;
+    private String lat, lon;
 
-    public Coordinates(String lat, String lot)
+    public Coordinates(String lat, String lon)
     {
         this.lat = lat;
-        this.lot = lot;
+        this.lon = lon;
     }
 
     public String getLat()
@@ -20,7 +20,7 @@ public class Coordinates
 
     public String getLot()
     {
-        return this.lot;
+        return this.lon;
     }
 
 
