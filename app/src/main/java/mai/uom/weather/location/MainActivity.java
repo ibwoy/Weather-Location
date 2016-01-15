@@ -10,9 +10,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /** Create the map container fragment **/
         mapFragmentContainer = new MapFragmentContainer();
 
-
+        /** FragmentManager show the map container fragment **/
         getSupportFragmentManager().beginTransaction().replace(R.id.container, mapFragmentContainer, "my_google_map").commit();
 
     }
