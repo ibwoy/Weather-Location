@@ -18,7 +18,7 @@ public class Coordinates
         return this.lat;
     }
 
-    public String getLot()
+    public String getLon()
     {
         return this.lon;
     }
