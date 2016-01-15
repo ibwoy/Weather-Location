@@ -16,7 +16,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -29,12 +30,9 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
     private GoogleMap map;
     /** Fragment view **/
     private View mapView;
+    /** Map container callbacks **/
+    private MapContainerCallbacks callbacks;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
 
     /**
@@ -51,7 +49,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** Create the fragment view **/
         mapView = inflater.inflate(R.layout.fragment_map_container, container, false);
-        /** Resister the callbacks **/
+        /** Resister the map fragment callbacks **/
         mapAsync();
         return mapView;
     }
@@ -64,11 +62,28 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
 
         /** Enable Marker options **/
         googleMap.getUiSettings().setMapToolbarEnabled(true);
-
+        /** Enables my location **/
         enableMyLocation();
+
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                /** Push the location to the callbacks **/
+                if(callbacks!=null)
+                    callbacks.onMarkerAdded(latLng.latitude,latLng.longitude);
+                /** Add a maker to the long press location **/
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.draggable(false);
+                map.addMarker(markerOptions);
+            }
+        });
 
     }
 
+    /**
+     * Enable my location (Check for permission first)
+     */
     private void enableMyLocation() {
         if(PermissionManager.requestPermission(getActivity(),this,Manifest.permission.ACCESS_FINE_LOCATION,
                 PermissionManager.PERMISSION_CODE_REQUEST_LOCATION)){
@@ -80,7 +95,6 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.e("requestCode",Integer.toString(requestCode));
         switch (requestCode) {
             case PermissionManager.PERMISSION_CODE_REQUEST_LOCATION:
                 // If request is cancelled, the result arrays are empty.
@@ -89,11 +103,22 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
                     map.getUiSettings().setMyLocationButtonEnabled(true);
                     map.setMyLocationEnabled(true);
                 }
-                else
+                else //Toast a message to the user that permission denied(By him)
                     Toast.makeText(getActivity(),R.string.permission_denied,Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
         }
+    }
+
+    public void setMapContainerCallbacks(MapContainerCallbacks callbacks) {
+        this.callbacks = callbacks;
+    }
+
+    /**
+     * Map Container callbacks
+     */
+    public interface MapContainerCallbacks {
+        void onMarkerAdded(double lat,double lng);
     }
 }

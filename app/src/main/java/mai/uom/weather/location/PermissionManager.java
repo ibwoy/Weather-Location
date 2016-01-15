@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 /**
  * Permission Manager Class
  * Check and Request permission for this app
- * Created by Panos on 15/1/2016.
  */
 public class PermissionManager {
     public static final int PERMISSION_CODE_REQUEST_LOCATION = 10;
