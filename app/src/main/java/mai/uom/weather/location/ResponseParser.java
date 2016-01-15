@@ -1,21 +1,23 @@
 package mai.uom.weather.location;
 
+import android.os.AsyncTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 /**
  * Created by felix on 15/1/2016.
  */
-public class ResponseParser
+public class ResponseParser extends AsyncTask<Connection, Void, Void>
 {
     private String jsonResult;
 
+    private WeatherResultCallback callback;
 
 
-    public ResponseParser(Connection connection)
+    public ResponseParser()
     {
-        connection.init();
-        this.jsonResult = connection.getResult();
+
     }
 
     public WeatherResults parse()
@@ -46,7 +48,28 @@ public class ResponseParser
 
     }
 
+    public void setCallBack(WeatherResultCallback callback)
+    {
+        this.callback = callback;
+    }
 
+    @Override
+    protected Void doInBackground(Connection... connection)
+    {
+        Connection conn = connection[0];
+        conn.init();
+        this.jsonResult = conn.getResult();
+        return null;
+    }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        this.callback.callBack(parse());
+    }
 
+    public interface WeatherResultCallback
+    {
+        public void callBack(WeatherResults wr);
+    }
 }
+

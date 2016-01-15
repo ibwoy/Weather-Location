@@ -24,11 +24,17 @@ public class MainActivity extends AppCompatActivity {
 
                 Connection c = new Connection(ow);
 
-                ResponseParser parser = new ResponseParser(c);
 
-                WeatherResults w = parser.parse();
+                ResponseParser parser = new ResponseParser();
+                parser.setCallBack(new ResponseParser.WeatherResultCallback()
+                {
+                    public void callBack(WeatherResults w)
+                    {
+                        System.out.println(w.toString());
+                    }
+                });
 
-                Log.i("myresults", w.toString());
+                parser.execute(c);
 
             }
         });
