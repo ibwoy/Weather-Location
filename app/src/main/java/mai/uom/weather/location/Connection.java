@@ -1,5 +1,7 @@
 package mai.uom.weather.location;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,9 +13,9 @@ import java.net.HttpURLConnection;
  */
 public class Connection
 {
-    private URL url;
-    private BufferedReader br;
-    private String result;
+    private URL url;            // URL reference
+    private BufferedReader br;  // BufferedReader for input streams
+    private String result;      // The response of http request
 
     public Connection(OpenWeather ow)
     {
@@ -28,6 +30,7 @@ public class Connection
         result = "";
     }
 
+    // Initating the procedure of data fetching through HTTP GET requests
     public void init()
     {
         try
@@ -46,6 +49,7 @@ public class Connection
 
     }
 
+    // Returns the image of the JSON object
     public String getResult()
     {
         return this.result;
