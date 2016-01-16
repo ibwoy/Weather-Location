@@ -2,11 +2,12 @@ package mai.uom.weather.location;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,18 +65,20 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         googleMap.getUiSettings().setMapToolbarEnabled(true);
         /** Enables my location **/
         enableMyLocation();
-
+        /** Handles the event of long press on map **/
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 /** Push the location to the callbacks **/
-                if(callbacks!=null)
-                    callbacks.onMarkerAdded(latLng.latitude,latLng.longitude);
-                /** Add a maker to the long press location **/
+                if (callbacks != null)
+                    callbacks.onMarkerAdded(latLng.latitude, latLng.longitude);
+                /** Add a maker to the location **/
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.draggable(false);
                 map.addMarker(markerOptions);
+                /** Vibrate to give feedback of the action to the user **/
+                vibrate();
             }
         });
 
@@ -89,6 +92,14 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
                 PermissionManager.PERMISSION_CODE_REQUEST_LOCATION)){
             map.setMyLocationEnabled(true);
         }
+    }
+
+    /**
+     * Vibrates the device for an instance
+     */
+    public void vibrate() {
+        Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(25);
     }
 
 
@@ -111,6 +122,10 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Set callbacks listener
+     * @param callbacks The listener
+     */
     public void setMapContainerCallbacks(MapContainerCallbacks callbacks) {
         this.callbacks = callbacks;
     }
