@@ -4,45 +4,27 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/imWeather"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/w_01d" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="11"
-        android:id="@+id/tvTemp"
+        android:id="@+id/tvWeather"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imWeather"
         android:layout_toEndOf="@+id/imWeather"
-        android:layout_marginTop="25dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="in"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/tvTemp"
-        android:layout_toRightOf="@+id/tvTemp"
-        android:layout_toEndOf="@+id/tvTemp"
-        android:layout_marginLeft="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="City"
-        android:id="@+id/tvCity"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginTop="25dp"
+        android:textSize="18sp"
+        android:layout_marginLeft="5dp"
+        android:autoText="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,17 +32,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/tvDesc"
-        android:layout_below="@+id/tvTemp"
-        android:layout_alignLeft="@+id/tvTemp"
-        android:layout_alignStart="@+id/tvTemp" />
+        android:textSize="15sp"
+        android:layout_below="@+id/tvWeather"
+        android:layout_alignLeft="@+id/tvWeather"
+        android:layout_alignStart="@+id/tvWeather" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/tvCountry"
-        android:layout_below="@+id/tvDesc"
-        android:layout_alignLeft="@+id/tvDesc"
-        android:layout_alignStart="@+id/tvDesc" />
 </RelativeLayout>
