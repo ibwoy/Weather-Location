@@ -17,14 +17,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
 
             public void onMarkerAdded(double lat, double lng) {
-                // Log.i("lat",Double.toString(lat));
-                // Log.i("lng",Double.toString(lng));
+
+                // Creating a Coordinates object triggered by user input
                 Coordinates coor = new Coordinates(lat, lng);
+
+                // Creating the OpenWeather object for constructing the specific url
                 OpenWeather ow = new OpenWeather(coor);
 
+                // Connection to openweathermap.org
                 Connection c = new Connection(ow);
 
-
+                // Parser initiation. Setting CallBack functionality
                 ResponseParser parser = new ResponseParser();
                 parser.setCallBack(new ResponseParser.WeatherResultCallback()
                 {

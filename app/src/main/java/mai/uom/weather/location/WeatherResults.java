@@ -5,7 +5,18 @@ package mai.uom.weather.location;
  */
 public class WeatherResults
 {
-    private String city, country, weathermain, weatherdescription;
+    /* WeatherResults Objects attributes
+
+    *   city : The name of the City corresponding to specific coordinates
+    *   country : The country code
+    *   weathermain : A single or double word describing the weather conditions
+    *   weatherdescription : Like weathemain but more elaborate phrase
+    *   lat : The latitude of the location
+    *   lon : The Longitude of the location
+    *   temp : The temperature in Celsius degrees
+    *   weathericon : A code associated with an image
+    * */
+    private String city, country, weathermain, weatherdescription, weathericon;
     private double lat, lon, temp;
 
     public void setLat(double lat)
@@ -38,6 +49,11 @@ public class WeatherResults
         this.weatherdescription = weatherdescription;
     }
 
+    public void setWeathericon(String weathericon)
+    {
+        this.weathericon = weathericon;
+    }
+
     public void setTemp(double temp)
     {
         this.temp = temp - 273.15;
@@ -49,12 +65,14 @@ public class WeatherResults
     public String getCountry() {return this.country;}
     public String getWeathermain() {return this.weathermain;}
     public String getWeatherdescription() {return this.weatherdescription;}
+    public String getWeathericon() {return this.weathericon;}
     public double getTemp() {return this.temp;}
 
     public String toString()
     {
         return "LAT : " + getLat() + "\n" + "LON : " + getLon() + "\n" + "TEMP : " + getTemp() + " C\n" + "WEATHER : " + getWeathermain()
-                + "\n" + "WEATHER DESCRIPTION : " + getWeatherdescription() + "\n" + "CITY : " + getCity() + "\n" + "COUNTRY CODE : " + getCountry();
+                + "\n" + "WEATHER DESCRIPTION : " + getWeatherdescription() + "\n" + "CITY : " + getCity() + "\n" + "COUNTRY CODE : " + getCountry()
+                + "\n" + "ICON CODE : " + getWeathericon();
     }
 
 
