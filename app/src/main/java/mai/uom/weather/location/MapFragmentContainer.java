@@ -27,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -108,7 +109,6 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         map = googleMap;
         /** Enable zoom buttons **/
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
         /** Enable Marker options **/
         googleMap.getUiSettings().setMapToolbarEnabled(true);
         /** Enables my location **/
@@ -119,10 +119,18 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
             public void onMapLongClick(LatLng latLng) {
                 /** Push the location to the callbacks **/
                 pushLocationToCallbacks(latLng);
-
             }
         });
-
+        /** Handles the event of click a marker balloon **/
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                /** Remove the marker from the map **/
+                marker.remove();
+                /** Request update info for the location **/
+                pushLocationToCallbacks(marker.getPosition());
+            }
+        });
     }
 
     /**
@@ -131,8 +139,10 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
      */
     private void pushLocationToCallbacks(LatLng latLng) {
         if (callbacks != null)
-            callbacks.onMarkerAdded(latLng.latitude, latLng.longitude);
+            callbacks.onLocationPressed(latLng.latitude, latLng.longitude);
     }
+
+
     /**
      * Add a marker to the map
      * @param lat Latitude
@@ -145,7 +155,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(title);
         markerOptions.snippet(snippet);
-        markerOptions.position(new LatLng(lat,lng));
+        markerOptions.position(new LatLng(lat, lng));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);
         /** Vibrate to give feedback of the action to the user **/
@@ -239,6 +249,6 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
      * Map Container callbacks
      */
     public interface MapContainerCallbacks {
-        void onMarkerAdded(double lat,double lng);
+        void onLocationPressed(double lat,double lng);
     }
 }
