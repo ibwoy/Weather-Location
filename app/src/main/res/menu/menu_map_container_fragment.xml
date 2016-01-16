@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_pin" android:title="@string/pin_current_location"
+        android:icon="@drawable/ic_person_pin_circle_white_24dp"
+        android:orderInCategory="100" app:showAsAction="always" />
+</menu>
