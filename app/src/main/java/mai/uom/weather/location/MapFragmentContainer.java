@@ -95,18 +95,21 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
                 /** Push the location to the callbacks **/
                 if (callbacks != null)
                     callbacks.onMarkerAdded(latLng.latitude, latLng.longitude);
-                /** Add a maker to the location **/
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.draggable(false);
-                map.addMarker(markerOptions);
-                /** Vibrate to give feedback of the action to the user **/
-                vibrate();
+
             }
         });
 
     }
 
+    public void addMarker(double lat,double lng) {
+        /** Add a maker to the location **/
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(lat,lng));
+        markerOptions.draggable(false);
+        map.addMarker(markerOptions);
+        /** Vibrate to give feedback of the action to the user **/
+        vibrate();
+    }
     /**
      * Enable my location (Check for permission first)
      */
@@ -183,7 +186,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.e("ConnectionSuspended","MapContainerFragment onConnectionSuspended");
+        Log.e("ConnectionSuspended", "MapContainerFragment onConnectionSuspended");
     }
 
     @Override
