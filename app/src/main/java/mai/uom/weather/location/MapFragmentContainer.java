@@ -101,9 +101,18 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
 
     }
 
-    public void addMarker(double lat,double lng) {
+    /**
+     * Add a marker to the map
+     * @param lat Latitude
+     * @param lng Longitude
+     * @param title Title
+     * @param snippet Message
+     */
+    public void addMarker(double lat,double lng,String title,String snippet) {
         /** Add a maker to the location **/
         MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title(title);
+        markerOptions.snippet(snippet);
         markerOptions.position(new LatLng(lat,lng));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);
