@@ -1,18 +1,42 @@
 package mai.uom.weather.location;
 
 /**
- * Created by Panos on 16/1/2016.
+ *
+ * Indexing images
+ * Associate an id with an image resource
  */
 public class IndexingImages {
     private String [] ids;
     private int [] resIds;
+    private static IndexingImages instance;
 
+    /**
+     * Singleton because the list
+     * created once
+     * @return the object
+     */
+    public static IndexingImages getInstance() {
+        if(instance == null)
+            instance = new IndexingImages();
+        return instance;
+    }
+
+    /**
+     * Private constructor to prevent the creation of multiply objects
+     */
     private void IndexingImages() {
         ids = new String[18];
         resIds = new int[18];
         initStringIds();
         initResourcesIds();
     }
+
+    /**
+     * Get the resource which is associate
+     * to the id
+     * @param id The id
+     * @return The resource from drawables
+     */
     public int getImageResources(String id) {
         int index = -1;
         for(int i = 0 ; i < 18; i++) {
@@ -22,7 +46,7 @@ public class IndexingImages {
             }
         }
         if(index!= -1) {
-            /** Retur
+            /** Return the resources of the current id **/
             return resIds[index];
         }
         /** Return the default image **/
