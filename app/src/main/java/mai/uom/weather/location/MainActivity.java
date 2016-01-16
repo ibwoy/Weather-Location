@@ -1,13 +1,11 @@
 package mai.uom.weather.location;
 
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import java.text.DecimalFormat;
+
 
 public class MainActivity extends AppCompatActivity {
     private MapFragmentContainer mapFragmentContainer;
@@ -18,10 +16,11 @@ public class MainActivity extends AppCompatActivity {
 
         /** Create the map container fragment **/
         mapFragmentContainer = new MapFragmentContainer();
+        /** Handles the MapContainerFragment callbacks **/
         mapFragmentContainer.setMapContainerCallbacks(new MapFragmentContainer.MapContainerCallbacks() {
             @Override
 
-            public void onMarkerAdded(double lat, double lng) {
+            public void onLocationPressed(final double lat, final double lng) {
 
                 // Creating a Coordinates object triggered by user input
                 Coordinates coor = new Coordinates(lat, lng);
@@ -34,16 +33,26 @@ public class MainActivity extends AppCompatActivity {
 
                 // Parser initiation. Setting CallBack functionality
                 ResponseParser parser = new ResponseParser();
-                parser.setCallBack(new ResponseParser.WeatherResultCallback()
-                {
-                    public void callBack(WeatherResults w)
-                    {
-                        System.out.println(w.toString());
-                        displayResultDialog(w);
+                parser.setCallBack(new ResponseParser.WeatherResultCallback() {
+                    public void callBack(WeatherResults w) {
+
+                        /** Convert the weather to have on decimal **/
+                        DecimalFormat df = new DecimalFormat("#.0");
+                        String weather = "";
+                        /** Create the weather string from the WeatherResults **/
+                        weather += df.format(w.getTemp()) + "°" + " " + getText(R.string.in)
+                                + " " + w.getCity() + " " + w.getCountry();
+                        /** Create the dialog and display the data to the user **/
+                        DisplayResultsDialog displayResultsDialog = new DisplayResultsDialog(MainActivity.this);
+                        displayResultsDialog.setWeather(weather,w.getWeatherdescription(),
+                                IndexingImages.getInstance().getImageResources(w.getWeathericon()));
+                        displayResultsDialog.create().show();
+                        /** Add to the map a marker with the current data **/
+                        mapFragmentContainer.addMarker(lat, lng, weather, w.getWeatherdescription());
 
                     }
                 });
-
+                /** Execute the async task of the openweather **/
                 parser.execute(c);
 
             }
@@ -55,28 +64,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void displayResultDialog(WeatherResults w) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.weather);
-        View view = getLayoutInflater().inflate(R.layout.dialog_weather_results,(ViewGroup)findViewById(android.R.id.content),false);
-        builder.setView(view);
-        showData(view,w);
-        builder.setPositiveButton(R.string.ok, null);
-        builder.create().show();
-    }
-    private void showData(View view,WeatherResults w) {
-        ImageView imageView = (ImageView)view.findViewById(R.id.imWeather);
-        imageView.setImageResource(IndexingImages.getInstance().getImageResources(w.getWeathericon()));
 
-        TextView tv = (TextView)view.findViewById(R.id.tvTemp);
-        tv.setText(Double.toString(w.getTemp()));
-        tv = (TextView)view.findViewById(R.id.tvCity);
-        tv.setText(w.getCity());
-        tv = (TextView)view.findViewById(R.id.tvCountry);
-        tv.setText(w.getCountry());
 
-        tv = (TextView)view.findViewById(R.id.tvDesc);
-        tv.setText(w.getWeatherdescription());
-
-    }
 }
