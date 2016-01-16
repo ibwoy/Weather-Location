@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -56,6 +59,8 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         builder.addOnConnectionFailedListener(this);
         mGoogleApiClient = builder.build();
         mGoogleApiClient.connect();
+        /** Declare that our fragment has it's own menu **/
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -78,6 +83,26 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        /** Creating the menu from the xml file **/
+        inflater.inflate(R.menu.menu_map_container_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /** if action_pin called push current location **/
+        if(item.getItemId() == R.id.action_pin) {
+            if(map.isMyLocationEnabled() && map.getMyLocation()!=null) {
+                /** Push the current location to the callbacks **/
+                pushLocationToCallbacks(new LatLng(map.getMyLocation().getLatitude(),
+                        map.getMyLocation().getLongitude()));
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         /** Hold the googleMap to a private var */
         map = googleMap;
@@ -93,14 +118,21 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
             @Override
             public void onMapLongClick(LatLng latLng) {
                 /** Push the location to the callbacks **/
-                if (callbacks != null)
-                    callbacks.onMarkerAdded(latLng.latitude, latLng.longitude);
+                pushLocationToCallbacks(latLng);
 
             }
         });
 
     }
 
+    /**
+     * Push the location to callback listener
+     * @param latLng Location
+     */
+    private void pushLocationToCallbacks(LatLng latLng) {
+        if (callbacks != null)
+            callbacks.onMarkerAdded(latLng.latitude, latLng.longitude);
+    }
     /**
      * Add a marker to the map
      * @param lat Latitude

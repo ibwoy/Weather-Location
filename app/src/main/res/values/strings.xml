@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Weather Location</string>
     <string name="permission_denied">Permission denied!!!</string>
-    <string name="pin_current_location">Pin's the current location</string>
+    <string name="pin_current_location">Pin\'s the current location</string>
 </resources>
