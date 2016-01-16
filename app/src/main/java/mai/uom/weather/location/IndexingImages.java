@@ -24,7 +24,7 @@ public class IndexingImages {
     /**
      * Private constructor to prevent the creation of multiply objects
      */
-    private void IndexingImages() {
+    private IndexingImages() {
         ids = new String[18];
         resIds = new int[18];
         initStringIds();

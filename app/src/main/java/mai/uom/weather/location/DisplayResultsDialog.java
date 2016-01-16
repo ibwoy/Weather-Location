@@ -1,7 +1,11 @@
 package mai.uom.weather.location;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by Panos on 16/1/2016.
@@ -10,7 +14,12 @@ public class DisplayResultsDialog {
     private WeatherResults results;
     private Context context;
 
-    public DisplayResultsDialog(Context context) {
+    private View view;
+
+    public DisplayResultsDialog(Context context,View  view) {
+        results = new WeatherResults();
+
+        this.view = view;
         this.context = context;
     }
     public void setWeatherResults(WeatherResults results) {
@@ -20,13 +29,9 @@ public class DisplayResultsDialog {
     public void create() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.weather);
-        builder.setPositiveButton(R.string.ok,null);
-
-
-
-
-
-
+        builder.setPositiveButton(R.string.ok, null);
+        builder.setView(view);
+        builder.create().show();
 
     }
 
