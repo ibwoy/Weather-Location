@@ -6,5 +6,9 @@
     <string name="pin_current_location">Pin\'s the current location</string>
     <string name="in">in</string>
     <string name="save">Save</string>
+    <string name="satellite">Satellite</string>
+    <string name="clear_map">Clear map</string>
+    <string name="restore_locations">Restore location</string>
+    <string name="clear_map_message">Are you sure to clear all the markers from the map?</string>
 
 </resources>
