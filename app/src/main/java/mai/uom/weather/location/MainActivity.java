@@ -1,8 +1,11 @@
 package mai.uom.weather.location;
 
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.text.DecimalFormat;
 
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 parser.setCallBack(new ResponseParser.WeatherResultCallback() {
                     public void callBack(WeatherResults w) {
 
-                        /** Convert the weather to have on decimal **/
+                        /** Convert the weather to have one decimal **/
                         DecimalFormat df = new DecimalFormat("#.0");
                         String weather = "";
                         /** Create the weather string from the WeatherResults **/
@@ -63,7 +66,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /** Create activity menu **/
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pin:
+                mapFragmentContainer.pushCurrentLocation();
+                break;
+            case R.id.action_clear_map:
+                showConfirmClearMapDialog();
+                break;
+            case R.id.action_satellite:
+                /** Alert the checked Status **/
+                item.setChecked(!item.isChecked());
+                mapFragmentContainer.satelliteView(item.isChecked());
+                break;
+            case R.id.action_restore:
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    /**
+     * Show a confirmation dialog to before clear the map
+     */
+    private void showConfirmClearMapDialog() {
 
+    }
 }
