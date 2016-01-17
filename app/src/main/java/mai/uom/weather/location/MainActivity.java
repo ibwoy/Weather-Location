@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 Coordinates coor = new Coordinates(lat, lng);
 
                 // Creating the OpenWeather object for constructing the specific url
-                geoLocationURL geo = new geoLocationURL(coor);
+                GeoLocationURL geo = new GeoLocationURL(coor);
 
                 // Connection to openweathermap.org
                 Connection c = new Connection(geo);
