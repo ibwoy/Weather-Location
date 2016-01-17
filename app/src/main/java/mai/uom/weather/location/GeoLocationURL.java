@@ -3,11 +3,11 @@ package mai.uom.weather.location;
 /**
  * Created by felix on 17/1/2016.
  */
-public class geoLocationURL extends OpenWeatherURL
+public class GeoLocationURL extends OpenWeatherURL
 {
     private Coordinates coor;
 
-    public geoLocationURL(Coordinates coor)
+    public GeoLocationURL(Coordinates coor)
     {
         super();
         this.coor = coor;
