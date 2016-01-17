@@ -11,9 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -29,6 +26,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.text.DecimalFormat;
 
 
 /**
@@ -60,8 +59,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         builder.addOnConnectionFailedListener(this);
         mGoogleApiClient = builder.build();
         mGoogleApiClient.connect();
-        /** Declare that our fragment has it's own menu **/
-        setHasOptionsMenu(true);
+
     }
 
     /**
@@ -82,25 +80,33 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         mapAsync();
         return mapView;
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        /** Creating the menu from the xml file **/
-        inflater.inflate(R.menu.menu_map_container_fragment, menu);
+    /**
+     * Clear the google all objects
+     */
+    public void clearMap() {
+        if(map!=null)
+            map.clear();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        /** if action_pin called push current location **/
-        if(item.getItemId() == R.id.action_pin) {
-            if(map.isMyLocationEnabled() && map.getMyLocation()!=null) {
-                /** Push the current location to the callbacks **/
-                pushLocationToCallbacks(new LatLng(map.getMyLocation().getLatitude(),
-                        map.getMyLocation().getLongitude()));
-            }
+    /**
+     * Request MapContainerFragment to push current location,
+     * to callbacks
+     */
+    public void pushCurrentLocation() {
+        if(map.isMyLocationEnabled() && map.getMyLocation()!=null) {
+            /** Push the current location to the callbacks **/
+            pushLocationToCallbacks(new LatLng(map.getMyLocation().getLatitude(),
+                    map.getMyLocation().getLongitude()));
         }
-        return super.onOptionsItemSelected(item);
+    }
+    /**
+     * Toggles the map to show satellite view or hybrid
+     * @param status if true show satellite view else hybrid
+     */
+    public void satelliteView(boolean status) {
+        if(status)
+            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        else
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 
     @Override
@@ -145,17 +151,24 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
 
     /**
      * Add a marker to the map
+     * @param w The weather results
      * @param lat Latitude
      * @param lng Longitude
-     * @param title Title
-     * @param snippet Message
      */
-    public void addMarker(double lat,double lng,String title,String snippet) {
+    public void addMarker(double lat,double lng,WeatherResults w) {
+        /** Convert the weather to have one decimal **/
+        DecimalFormat df = new DecimalFormat("#.0");
+        String weather = "";
+        /** Create the weather string from the WeatherResults **/
+        weather += df.format(w.getTemp()) + "°" + " " + getText(R.string.in)
+                + " " + w.getCity() + " " + w.getCountry();
+        /** Create the dialog and display the data to the user **/
+
         /** Add a maker to the location **/
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.title(title);
-        markerOptions.snippet(snippet);
-        markerOptions.position(new LatLng(lat, lng));
+        markerOptions.title(weather);
+        markerOptions.snippet(w.getWeatherdescription());
+        markerOptions.position(new LatLng(lat,lng));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);
         /** Vibrate to give feedback of the action to the user **/
