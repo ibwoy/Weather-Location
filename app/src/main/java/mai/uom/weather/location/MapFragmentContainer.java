@@ -60,8 +60,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         builder.addOnConnectionFailedListener(this);
         mGoogleApiClient = builder.build();
         mGoogleApiClient.connect();
-        /** Declare that our fragment has it's own menu **/
-        setHasOptionsMenu(true);
+ 
     }
 
     /**
@@ -83,25 +82,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         return mapView;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        /** Creating the menu from the xml file **/
-        inflater.inflate(R.menu.menu_map_container_fragment, menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        /** if action_pin called push current location **/
-        if(item.getItemId() == R.id.action_pin) {
-            if(map.isMyLocationEnabled() && map.getMyLocation()!=null) {
-                /** Push the current location to the callbacks **/
-                pushLocationToCallbacks(new LatLng(map.getMyLocation().getLatitude(),
-                        map.getMyLocation().getLongitude()));
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
