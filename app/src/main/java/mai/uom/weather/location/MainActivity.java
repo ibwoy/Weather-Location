@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 ResponseParser parser = new ResponseParser();
                 parser.setCallBack(new ResponseParser.WeatherResultCallback() {
                     public void callBack(WeatherResults w) {
-
+                        
                         /** Convert the weather to have on decimal **/
                         DecimalFormat df = new DecimalFormat("#.0");
                         String weather = "";
