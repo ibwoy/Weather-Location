@@ -78,8 +78,34 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         mapAsync();
         return mapView;
     }
-
-
+    /**
+     * Clear the google all objects
+     */
+    public void clearMap() {
+        if(map!=null)
+            map.clear();
+    }
+    /**
+     * Request MapContainerFragment to push current location,
+     * to callbacks
+     */
+    public void pushCurrentLocation() {
+        if(map.isMyLocationEnabled() && map.getMyLocation()!=null) {
+            /** Push the current location to the callbacks **/
+            pushLocationToCallbacks(new LatLng(map.getMyLocation().getLatitude(),
+                    map.getMyLocation().getLongitude()));
+        }
+    }
+    /**
+     * Toggles the map to show satellite view or hybrid
+     * @param status if true show satellite view else hybrid
+     */
+    public void satelliteView(boolean status) {
+        if(status)
+            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        else
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
