@@ -1,6 +1,8 @@
 package mai.uom.weather.location;
 
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,20 +40,10 @@ public class MainActivity extends AppCompatActivity {
                 ResponseParser parser = new ResponseParser();
                 parser.setCallBack(new ResponseParser.WeatherResultCallback() {
                     public void callBack(WeatherResults w) {
-
-                        /** Convert the weather to have one decimal **/
-                        DecimalFormat df = new DecimalFormat("#.0");
-                        String weather = "";
-                        /** Create the weather string from the WeatherResults **/
-                        weather += df.format(w.getTemp()) + "°" + " " + getText(R.string.in)
-                                + " " + w.getCity() + " " + w.getCountry();
-                        /** Create the dialog and display the data to the user **/
-                        DisplayResultsDialog displayResultsDialog = new DisplayResultsDialog(MainActivity.this);
-                        displayResultsDialog.setWeather(weather,w.getWeatherdescription(),
-                                IndexingImages.getInstance().getImageResources(w.getWeathericon()));
-                        displayResultsDialog.create().show();
+                        /** Show the result dialog **/
+                        initializeResultDialog(w).show();
                         /** Add to the map a marker with the current data **/
-                        mapFragmentContainer.addMarker(lat, lng, weather, w.getWeatherdescription());
+                        mapFragmentContainer.addMarker(lat,lng,w);
 
                     }
                 });
@@ -66,6 +58,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Creates and returns the Result dialog with the given results
+     * @param w Weather results
+     * @return The dialog
+     */
+    private Dialog initializeResultDialog(WeatherResults w) {
+        /** Convert the weather to have one decimal **/
+        DecimalFormat df = new DecimalFormat("#.0");
+        String weather = "";
+        /** Create the weather string from the WeatherResults **/
+        weather += df.format(w.getTemp()) + "°" + " " + getText(R.string.in)
+                + " " + w.getCity() + " " + w.getCountry();
+        /** Create the dialog and display the data to the user **/
+        DisplayResultsDialog displayResultsDialog = new DisplayResultsDialog(MainActivity.this);
+        displayResultsDialog.setDisplayResultsCallbacks(new DisplayResultsDialog.DisplayResultDialogCallbacks() {
+            @Override
+            public void OnSaveButtonClicked() {
+                /** On save button click save the weather result object **/
+            }
+        });
+        displayResultsDialog.setWeather(weather,w.getWeatherdescription(),
+                IndexingImages.getInstance().getImageResources(w.getWeathericon()));
+        return displayResultsDialog.create();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /** Create activity menu **/
@@ -88,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 mapFragmentContainer.satelliteView(item.isChecked());
                 break;
             case R.id.action_restore:
+                /** Call restore activity **/
                 break;
             default:
                 break;
@@ -99,6 +116,17 @@ public class MainActivity extends AppCompatActivity {
      * Show a confirmation dialog to before clear the map
      */
     private void showConfirmClearMapDialog() {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.clear_map);
+        builder.setMessage(R.string.clear_map_message);
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                mapFragmentContainer.clearMap();
+            }
+        });
+        builder.create().show();
     }
 }

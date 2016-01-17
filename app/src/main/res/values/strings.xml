@@ -10,5 +10,7 @@
     <string name="clear_map">Clear map</string>
     <string name="restore_locations">Restore location</string>
     <string name="clear_map_message">Are you sure to clear all the markers from the map?</string>
+    <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
