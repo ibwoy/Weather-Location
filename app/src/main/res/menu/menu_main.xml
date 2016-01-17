@@ -8,9 +8,7 @@
         android:checkable="true"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_restore" android:title="@string/restore_locations"
-        android:checkable="true"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_clear_map" android:title="@string/clear_map"
-        android:checkable="true"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
