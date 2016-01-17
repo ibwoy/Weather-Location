@@ -27,6 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DecimalFormat;
+
 
 /**
  * MapFragmentContainerClass
@@ -149,17 +151,24 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
 
     /**
      * Add a marker to the map
+     * @param w The weather results
      * @param lat Latitude
      * @param lng Longitude
-     * @param title Title
-     * @param snippet Message
      */
-    public void addMarker(double lat,double lng,String title,String snippet) {
+    public void addMarker(double lat,double lng,WeatherResults w) {
+        /** Convert the weather to have one decimal **/
+        DecimalFormat df = new DecimalFormat("#.0");
+        String weather = "";
+        /** Create the weather string from the WeatherResults **/
+        weather += df.format(w.getTemp()) + "°" + " " + getText(R.string.in)
+                + " " + w.getCity() + " " + w.getCountry();
+        /** Create the dialog and display the data to the user **/
+
         /** Add a maker to the location **/
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.title(title);
-        markerOptions.snippet(snippet);
-        markerOptions.position(new LatLng(lat, lng));
+        markerOptions.title(weather);
+        markerOptions.snippet(w.getWeatherdescription());
+        markerOptions.position(new LatLng(lat,lng));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);
         /** Vibrate to give feedback of the action to the user **/
