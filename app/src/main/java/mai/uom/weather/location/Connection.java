@@ -17,11 +17,11 @@ public class Connection
     private BufferedReader br;  // BufferedReader for input streams
     private String result;      // The response of http request
 
-    public Connection(OpenWeather ow)
+    public Connection(OpenWeatherURL ow)
     {
         try
         {
-            url = new URL(ow.toString());
+            url = new URL(ow.getURL());
         }
         catch (MalformedURLException me)
         {

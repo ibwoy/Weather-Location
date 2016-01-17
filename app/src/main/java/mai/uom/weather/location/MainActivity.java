@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
                 Coordinates coor = new Coordinates(lat, lng);
 
                 // Creating the OpenWeather object for constructing the specific url
-                OpenWeather ow = new OpenWeather(coor);
+                geoLocationURL geo = new geoLocationURL(coor);
 
                 // Connection to openweathermap.org
-                Connection c = new Connection(ow);
+                Connection c = new Connection(geo);
 
                 // Parser initiation. Setting CallBack functionality
                 ResponseParser parser = new ResponseParser();
