@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import android.app.Dialog;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class DisplayResultsDialog {
     private String description;
     private int icon;
     private Activity activity;
+    private DisplayResultDialogCallbacks callbacks;
 
     /**
      * Constructor
@@ -53,6 +55,16 @@ public class DisplayResultsDialog {
         builder.setView(view);
         notifyDialogData(view);
         builder.setPositiveButton(R.string.ok, null);
+        /** Handle the Save Button click event **/
+        builder.setNegativeButton(R.string.save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                /** Close the dialog **/
+                dialog.dismiss();
+                /** process the event **/
+                saveButtonClick();
+            }
+        });
         return builder.create();
     }
 
@@ -69,6 +81,23 @@ public class DisplayResultsDialog {
         tv = (TextView)view.findViewById(R.id.tvDesc);
         tv.setText(description);
 
+    }
+    private void saveButtonClick() {
+        if(callbacks!=null)
+            callbacks.OnSaveButtonClicked();
+    }
+    /**
+     * Set DisplayResults dialog callbacks
+     * @param callbacks
+     */
+    public void setDisplayResultsCallbacks(DisplayResultDialogCallbacks callbacks) {
+        this.callbacks = callbacks;
+    }
+    /**
+     * DisplayDialogCallbacks
+     */
+    public interface DisplayResultDialogCallbacks {
+        void OnSaveButtonClicked();
     }
 
 
