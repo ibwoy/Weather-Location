@@ -29,10 +29,9 @@ public class DataWeatherHelper {
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
             String query =
-                        "INSERT INTO LOCATION(id, country, city, lat, lon)"
-                            + " VALUES(" + w.getId()+ ",'" + w.getCountry() + ",'" + w.getCity()
-                            + ",'" + w.getLat() + ",'" + w.getLon() + ",'"
-                            + "')";
+                        "INSERT INTO LOCATION(country, city, lat, lon)"
+                            + " VALUES('" + w.getCountry() + "','" + w.getCity()
+                            + "'," + w.getLat() + "," + w.getLon() + ")";
             db.execSQL(query);
             db.close();
         }
