@@ -93,36 +93,5 @@ public class DataWeatherHelper {
         }
         return results;
     }
-
-    /**
-     * Read one location from database
-     * @param id
-     * @return weather location
-     */
-    public WeatherResults findOne(int id) {
-        WeatherResults w = new WeatherResults();
-        try {
-            SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query = "SELECT * FROM LOCATIONS where id="+id;
-            Cursor c = db.rawQuery(query, null);
-
-            if(c.moveToFirst()) {
-                w.setId(c.getInt(0));
-                w.setCounty(c.getString(1));
-                w.setCity(c.getString(2));
-                w.setLat(c.getDouble(3));
-                w.setLon(c.getDouble(4));
-            }
-            c.close();
-            db.close();
-        }
-        catch (SQLiteException e) {
-            e.printStackTrace();
-        }
-        return w;
-    }
-
-
-
 }
 
