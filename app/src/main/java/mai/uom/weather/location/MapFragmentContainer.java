@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -78,7 +79,39 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         mapView = inflater.inflate(R.layout.fragment_map_container, container, false);
         /** Resister the map fragment callbacks **/
         mapAsync();
+        /** Check first and show the first time state **/
+        checkAndShowFirstTimeUseFrame();
+
         return mapView;
+    }
+
+    /**
+     * Check if this is the first time which the app runs ,
+     * and shows the first time frame
+     */
+    private void checkAndShowFirstTimeUseFrame() {
+        /** Get the first time status from preferences **/
+        SavedPreferences savedPreferences = new SavedPreferences(getActivity());
+        /** The default state is true **/
+        boolean state = savedPreferences.getBoolean(SavedPreferences.FIRST_TIME_STATE,true);
+        /** Update the state to false  **/
+        if(state) {
+            /** Update the state to false  **/
+            savedPreferences.put(SavedPreferences.FIRST_TIME_STATE,false);
+            /** Show the frame **/
+            final View view = mapView.findViewById(R.id.first_time_layout);
+            view.setVisibility(View.VISIBLE);
+            /** Handles the on click event on Got it button **/
+            Button bntGotIt = (Button)mapView.findViewById(R.id.btnGotit);
+            bntGotIt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /** When got it clicked hide the fragme **/
+                    view.setVisibility(View.GONE);
+                }
+            });
+
+        }
     }
     /**
      * Clear the google all objects
@@ -104,9 +137,9 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
      */
     public void satelliteView(boolean status) {
         if(status)
-            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        else
             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        else
+            map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
     @Override
@@ -175,7 +208,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         vibrate();
     }
     /**
-     * Enable my location (Check for permission first)
+     * Enable my location (Checks for permission first)
      */
     private void enableMyLocation() {
         if(PermissionManager.requestPermission(getActivity(), this, Manifest.permission.ACCESS_FINE_LOCATION,
