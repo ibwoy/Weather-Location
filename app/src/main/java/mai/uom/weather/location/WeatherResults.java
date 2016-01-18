@@ -20,11 +20,10 @@ public class WeatherResults
     * */
     private String city, country, weathermain, weatherdescription, weathericon;
     private double lat, lon, temp;
-    private long time;
 
     public WeatherResults()
     {
-        this.time = Calendar.getInstance().getTimeInMillis();
+
     }
 
     public void setLat(double lat)
@@ -75,7 +74,7 @@ public class WeatherResults
     public String getWeatherdescription() {return this.weatherdescription;}
     public String getWeathericon() {return this.weathericon;}
     public double getTemp() {return this.temp;}
-    public long getTime() {return this.time;}
+    
 
     public String toString()
     {
