@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -13,11 +12,11 @@ import mai.uom.weather.location.WeatherResults;
 /**
  * Created by io on 1/18/16.
  */
-public class DatarWeatherHelper {
+public class DataWeatherHelper {
 
     private Context context;
 
-    public DatarWeatherHelper(Context context) {
+    public DataWeatherHelper(Context context) {
         this.context = context;
     }
 
@@ -27,14 +26,17 @@ public class DatarWeatherHelper {
      */
     public void create(WeatherResults w) {
         try {
-            SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query =
-                        "INSERT INTO LOCATION(id, country, city, lat, lon)"
-                            + " VALUES(" + w.getId()+ ",'" + w.getCountry() + ",'" + w.getCity()
-                            + ",'" + w.getLat() + ",'" + w.getLon() + ",'"
-                            + "')";
-            db.execSQL(query);
-            db.close();
+            /** Checking if the id has already value. if id is not -1 then
+             * do nothing, the weather is already saved else save the weather location info **/
+            if(w.getId() == -1) {
+                SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+                String query =
+                        "INSERT INTO LOCATIONS(country, city, lat, lon)"
+                                + " VALUES('" + w.getCountry() + "','" + w.getCity()
+                                + "'," + w.getLat() + "," + w.getLon() + ")";
+                db.execSQL(query);
+                db.close();
+            }
         }
         catch (SQLiteException e) {
             e.printStackTrace();
@@ -49,7 +51,7 @@ public class DatarWeatherHelper {
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
             String query =
-                        "DELETE FROM LOCATION WHERE id="+id;
+                        "DELETE FROM LOCATIONS WHERE id="+id;
             db.execSQL(query);
             db.close();
         }
@@ -67,7 +69,7 @@ public class DatarWeatherHelper {
 
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query = "SELECT * FROM LOCATION";
+            String query = "SELECT * FROM LOCATIONS";
 
             Cursor c = db.rawQuery(query, null);
 
@@ -79,6 +81,7 @@ public class DatarWeatherHelper {
                     w.setCity(c.getString(2));
                     w.setLat(c.getDouble(3));
                     w.setLon(c.getDouble(4));
+                    results.add(w);
                 }
                 while(c.moveToNext());
             }
@@ -90,36 +93,5 @@ public class DatarWeatherHelper {
         }
         return results;
     }
-
-    /**
-     * Read one location from database
-     * @param id
-     * @return weather location
-     */
-    public WeatherResults findOne(int id) {
-        WeatherResults w = new WeatherResults();
-        try {
-            SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query = "SELECT * FROM LOCATION where id="+id;
-            Cursor c = db.rawQuery(query, null);
-
-            if(c.moveToFirst()) {
-                w.setId(c.getInt(0));
-                w.setCounty(c.getString(1));
-                w.setCity(c.getString(2));
-                w.setLat(c.getDouble(3));
-                w.setLon(c.getDouble(4));
-            }
-            c.close();
-            db.close();
-        }
-        catch (SQLiteException e) {
-            e.printStackTrace();
-        }
-        return w;
-    }
-
-
-
 }
 
