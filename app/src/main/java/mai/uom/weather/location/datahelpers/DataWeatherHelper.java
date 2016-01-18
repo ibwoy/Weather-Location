@@ -81,6 +81,7 @@ public class DataWeatherHelper {
                     w.setCity(c.getString(2));
                     w.setLat(c.getDouble(3));
                     w.setLon(c.getDouble(4));
+                    results.add(w);
                 }
                 while(c.moveToNext());
             }
