@@ -13,11 +13,11 @@ import mai.uom.weather.location.WeatherResults;
 /**
  * Created by io on 1/18/16.
  */
-public class DatarWeatherHelper {
+public class DataWeatherHelper {
 
     private Context context;
 
-    public DatarWeatherHelper(Context context) {
+    public DataWeatherHelper(Context context) {
         this.context = context;
     }
 
