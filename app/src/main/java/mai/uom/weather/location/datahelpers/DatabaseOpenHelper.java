@@ -24,12 +24,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
 
-            db.execSQL("CREATE TABLE WEATHER(ID integer primary key, COUNTRY text, CITY text, WEATHER text,"
-                    + "DESC text, LAT numeric, LON numeric, TIME numeric)");
+            db.execSQL("CREATE TABLE LOCATIONS(ID integer primary key autoincrement, COUNTRY text, CITY text,"
+                    + "LAT numeric, LON numeric)");
         }
         catch (SQLiteException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 }
