@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import java.text.DecimalFormat;
 
+import mai.uom.weather.location.datahelpers.DataWeatherHelper;
+
 
 public class MainActivity extends AppCompatActivity {
     private MapFragmentContainer mapFragmentContainer;
@@ -25,32 +27,9 @@ public class MainActivity extends AppCompatActivity {
         mapFragmentContainer.setMapContainerCallbacks(new MapFragmentContainer.MapContainerCallbacks() {
             @Override
 
-            public void onLocationPressed(final double lat, final double lng) {
-
-                // Creating a Coordinates object triggered by user input
-                Coordinates coor = new Coordinates(lat, lng);
-
-                // Creating the OpenWeather object for constructing the specific url
-                GeoLocationURL geo = new GeoLocationURL(coor);
-
-                // Connection to openweathermap.org
-                Connection c = new Connection(geo);
-
-                // Parser initiation. Setting CallBack functionality
-                ResponseParser parser = new ResponseParser();
-                parser.setCallBack(new ResponseParser.WeatherResultCallback() {
-                    public void callBack(WeatherResults w) {
-
-                        /** Show the result dialog **/
-                        initializeResultDialog(w).show();
-
-                        /** Add to the map a marker with the current data **/
-                        mapFragmentContainer.addMarker(lat,lng,w);
-
-                    }
-                });
-                /** Execute the async task of the openweather **/
-                parser.execute(c);
+            public void onLocationPressed(double lat,double lng) {
+                /** Process the point **/
+                processPoint(lat,lng);
 
             }
         });
@@ -61,11 +40,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Process the point to get the weather results and display them
+     * @param lat
+     * @param lng
+     */
+    private void processPoint(final double lat,final double lng) {
+        // Creating a Coordinates object triggered by user input
+        Coordinates coor = new Coordinates(lat, lng);
+
+        // Creating the OpenWeather object for constructing the specific url
+        GeoLocationURL geo = new GeoLocationURL(coor);
+
+        // Connection to openweathermap.org
+        Connection c = new Connection(geo);
+
+        // Parser initiation. Setting CallBack functionality
+        ResponseParser parser = new ResponseParser();
+        parser.setCallBack(new ResponseParser.WeatherResultCallback() {
+            public void callBack(WeatherResults w) {
+
+                /** Show the result dialog **/
+                initializeResultDialog(w).show();
+
+                /** Add to the map a marker with the current data **/
+                mapFragmentContainer.addMarker(lat,lng,w);
+
+            }
+        });
+        /** Execute the async task of the openweather **/
+        parser.execute(c);
+    }
+
+    /**
      * Creates and returns the Result dialog with the given results
      * @param w Weather results
      * @return The dialog
      */
-    private Dialog initializeResultDialog(WeatherResults w) {
+    private Dialog initializeResultDialog(final WeatherResults w) {
         /** Convert the weather to have one decimal **/
         DecimalFormat df = new DecimalFormat("#.0");
         String weather = "";
@@ -78,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void OnSaveButtonClicked() {
                 /** On save button click save the weather result object **/
+                DataWeatherHelper wHelper = new DataWeatherHelper(MainActivity.this);
+                wHelper.create(w);
             }
         });
         displayResultsDialog.setWeather(weather,w.getWeatherDesc(),
