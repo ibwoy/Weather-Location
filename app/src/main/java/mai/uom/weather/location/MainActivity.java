@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 /** On save button click save the weather result object **/
             }
         });
-        displayResultsDialog.setWeather(weather,w.getWeatherdescription(),
-                IndexingImages.getInstance().getImageResources(w.getWeathericon()));
+        displayResultsDialog.setWeather(weather,w.getWeatherDesc(),
+                IndexingImages.getInstance().getImageResources(w.getWeatherIcon()));
         return displayResultsDialog.create();
     }
     @Override

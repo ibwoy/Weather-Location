@@ -167,7 +167,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         /** Add a maker to the location **/
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(weather);
-        markerOptions.snippet(w.getWeatherdescription());
+        markerOptions.snippet(w.getWeatherDesc());
         markerOptions.position(new LatLng(lat,lng));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);

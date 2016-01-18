@@ -30,9 +30,9 @@ public class ResponseParser extends AsyncTask<Connection, Void, Void>
             wr.setLon(json.getJSONObject("coord").getDouble("lon"));
 
             JSONArray jsonar = json.getJSONArray("weather");
-            wr.setWeathermain(jsonar.getJSONObject(0).getString("main"));
-            wr.setWeatherdescription(jsonar.getJSONObject(0).getString("description"));
-            wr.setWeathericon(jsonar.getJSONObject(0).getString("icon"));
+            wr.setWeatherMain(jsonar.getJSONObject(0).getString("main"));
+            wr.setWeatherDesc(jsonar.getJSONObject(0).getString("description"));
+            wr.setWeatherIcon(jsonar.getJSONObject(0).getString("icon"));
 
             wr.setCounty(json.getJSONObject("sys").getString("country"));
 
