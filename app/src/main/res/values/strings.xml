@@ -19,5 +19,5 @@
     <string name="user_help_pin_current_location">Click to pin your current location</string>
     <string name="user_help_click_on_window_to_refresh_the_weather">Click the info window to refresh the weather!</string>
     <string name="got_it">Got it!</string>
-    <string name="restore">Restore</string>
+    <string name="restore_location">Restore location</string>
 </resources>
