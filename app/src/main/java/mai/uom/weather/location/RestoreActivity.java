@@ -56,9 +56,10 @@ public class RestoreActivity extends AppCompatActivity {
         });
         /** Handle on item select event **/
         listView.setAdapter(adapter);
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 /** Set result data **/
                 Intent data = new Intent();
                 data.putExtra("lat", weatherLocations.get(position).getLat());
@@ -67,11 +68,6 @@ public class RestoreActivity extends AppCompatActivity {
                 setResult(100, data);
                 /** Finish the activity **/
                 finish();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                /** Do nothing **/
             }
         });
 

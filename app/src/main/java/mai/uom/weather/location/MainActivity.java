@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onLocationPressed(double lat,double lng) {
                 /** Process the point **/
-                processPoint(lat,lng);
+                processPoint(lat,lng,-1);
 
             }
         });
@@ -42,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Process the point to get the weather results and display them
-     * @param lat
-     * @param lng
+     * @param lat latitude
+     * @param lng longitude
+     * @param id location id
      */
-    private void processPoint(final double lat,final double lng) {
+    private void processPoint(final double lat,final double lng,final int id) {
         // Creating a Coordinates object triggered by user input
         Coordinates coor = new Coordinates(lat, lng);
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         parser.setCallBack(new ResponseParser.WeatherResultCallback() {
             public void callBack(WeatherResults w) {
                 /** Setting the exact cords to w */
+                w.setId(id);
                 w.setLat(lat);
                 w.setLon(lng);
                 /** Show the result dialog **/
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 wHelper.create(w);
             }
         });
-        displayResultsDialog.setWeather(weather,w.getWeatherDesc(),
+        displayResultsDialog.setWeather(weather, w.getWeatherDesc(),
                 IndexingImages.getInstance().getImageResources(w.getWeatherIcon()));
         return displayResultsDialog.create();
     }
@@ -105,6 +108,22 @@ public class MainActivity extends AppCompatActivity {
         /** Create activity menu **/
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /** Handle the result from the Restore activity **/
+        if(resultCode == 100 && data !=null) {
+            int id = data.getIntExtra("id",-1);
+            double lat = data.getDoubleExtra("lat", 0);
+            double lng = data.getDoubleExtra("lng",0);
+            Log.e("id",Integer.toString(id));
+            Log.e("lat",Double.toString(lat));
+            Log.e("lng",Double.toString(lng));
+
+            processPoint(lat, lng, id);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -124,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_restore:
                 /** Call restore activity **/
                 Intent restore = new Intent(MainActivity.this,RestoreActivity.class);
-                startActivity(restore);
+                startActivityForResult(restore,89);
                 break;
             default:
                 break;
