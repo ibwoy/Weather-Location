@@ -17,13 +17,15 @@ public class WeatherResults
     *   lon : The Longitude of the location
     *   temp : The temperature in Celsius degrees
     *   weathericon : A code associated with an image
+    *   id : identification number for database manipulations
     * */
     private String city, country, weathermain, weatherdescription, weathericon;
     private double lat, lon, temp;
+    private int id;
 
     public WeatherResults()
     {
-
+        this.id = -1;
     }
 
     public void setLat(double lat)
@@ -66,6 +68,11 @@ public class WeatherResults
         this.temp = temp - 273.15;
     }
 
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
     public double getLat() {return this.lat;}
     public double getLon() {return this.lon;}
     public String getCity() {return this.city;}
@@ -74,7 +81,7 @@ public class WeatherResults
     public String getWeatherdescription() {return this.weatherdescription;}
     public String getWeathericon() {return this.weathericon;}
     public double getTemp() {return this.temp;}
-    
+    public int getId() {return this.id;}
 
     public String toString()
     {
