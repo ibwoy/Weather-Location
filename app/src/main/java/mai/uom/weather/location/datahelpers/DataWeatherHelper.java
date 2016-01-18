@@ -26,13 +26,17 @@ public class DataWeatherHelper {
      */
     public void create(WeatherResults w) {
         try {
-            SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query =
+            /** Checking if the id has already value. if id is not -1 then
+             * do nothing, the weather is already saved else save the weather location info **/
+            if(w.getId() == -1) {
+                SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+                String query =
                         "INSERT INTO LOCATIONS(country, city, lat, lon)"
-                            + " VALUES('" + w.getCountry() + "','" + w.getCity()
-                            + "'," + w.getLat() + "," + w.getLon() + ")";
-            db.execSQL(query);
-            db.close();
+                                + " VALUES('" + w.getCountry() + "','" + w.getCity()
+                                + "'," + w.getLat() + "," + w.getLon() + ")";
+                db.execSQL(query);
+                db.close();
+            }
         }
         catch (SQLiteException e) {
             e.printStackTrace();
