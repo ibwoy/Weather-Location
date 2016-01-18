@@ -185,10 +185,8 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
     /**
      * Add a marker to the map
      * @param w The weather results
-     * @param lat Latitude
-     * @param lng Longitude
      */
-    public void addMarker(double lat,double lng,WeatherResults w) {
+    public void addMarker(WeatherResults w) {
         /** Convert the weather to have one decimal **/
         DecimalFormat df = new DecimalFormat("#.0");
         String weather = "";
@@ -201,7 +199,7 @@ public class MapFragmentContainer extends Fragment implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(weather);
         markerOptions.snippet(w.getWeatherDesc());
-        markerOptions.position(new LatLng(lat,lng));
+        markerOptions.position(new LatLng(w.getLat(),w.getLon()));
         markerOptions.draggable(false);
         map.addMarker(markerOptions);
         /** Vibrate to give feedback of the action to the user **/
