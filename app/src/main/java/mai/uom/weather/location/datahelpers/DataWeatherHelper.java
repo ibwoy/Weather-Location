@@ -28,7 +28,7 @@ public class DataWeatherHelper {
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
             String query =
-                        "INSERT INTO LOCATION(country, city, lat, lon)"
+                        "INSERT INTO LOCATIONS(country, city, lat, lon)"
                             + " VALUES('" + w.getCountry() + "','" + w.getCity()
                             + "'," + w.getLat() + "," + w.getLon() + ")";
             db.execSQL(query);
@@ -47,7 +47,7 @@ public class DataWeatherHelper {
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
             String query =
-                        "DELETE FROM LOCATION WHERE id="+id;
+                        "DELETE FROM LOCATIONS WHERE id="+id;
             db.execSQL(query);
             db.close();
         }
@@ -65,7 +65,7 @@ public class DataWeatherHelper {
 
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query = "SELECT * FROM LOCATION";
+            String query = "SELECT * FROM LOCATIONS";
 
             Cursor c = db.rawQuery(query, null);
 
@@ -98,7 +98,7 @@ public class DataWeatherHelper {
         WeatherResults w = new WeatherResults();
         try {
             SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
-            String query = "SELECT * FROM LOCATION where id="+id;
+            String query = "SELECT * FROM LOCATIONS where id="+id;
             Cursor c = db.rawQuery(query, null);
 
             if(c.moveToFirst()) {
