@@ -20,11 +20,19 @@ public class WeatherResults
     * */
     private String city, country, weathermain, weatherdescription, weathericon;
     private double lat, lon, temp;
-    private long time;
+    private int id;
 
     public WeatherResults()
     {
-        this.time = Calendar.getInstance().getTimeInMillis();
+        id = -1;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setLat(double lat)
