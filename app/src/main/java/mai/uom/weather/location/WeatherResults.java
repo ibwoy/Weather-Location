@@ -1,7 +1,5 @@
 package mai.uom.weather.location;
 
-import java.util.Calendar;
-
 /**
  * Created by felix on 15/1/2016.
  */
@@ -11,14 +9,14 @@ public class WeatherResults
 
     *   city : The name of the City corresponding to specific coordinates
     *   country : The country code
-    *   weathermain : A single or double word describing the weather conditions
-    *   weatherdescription : Like weathemain but more elaborate phrase
+    *   weatherMain : A single or double word describing the weather conditions
+    *   weatherDesc : Like weathemain but more elaborate phrase
     *   lat : The latitude of the location
     *   lon : The Longitude of the location
     *   temp : The temperature in Celsius degrees
-    *   weathericon : A code associated with an image
+    *   weatherIcon : A code associated with an image
     * */
-    private String city, country, weathermain, weatherdescription, weathericon;
+    private String city, country, weatherMain, weatherDesc, weatherIcon;
     private double lat, lon, temp;
     private int id;
 
@@ -55,19 +53,19 @@ public class WeatherResults
         this.country = country;
     }
 
-    public void setWeathermain(String weathermain)
+    public void setWeatherMain(String weatherMain)
     {
-        this.weathermain = weathermain;
+        this.weatherMain = weatherMain;
     }
 
-    public void setWeatherdescription(String weatherdescription)
+    public void setWeatherDesc(String weatherDesc)
     {
-        this.weatherdescription = weatherdescription;
+        this.weatherDesc = weatherDesc;
     }
 
-    public void setWeathericon(String weathericon)
+    public void setWeatherIcon(String weatherIcon)
     {
-        this.weathericon = weathericon;
+        this.weatherIcon = weatherIcon;
     }
 
     public void setTemp(double temp)
@@ -79,17 +77,16 @@ public class WeatherResults
     public double getLon() {return this.lon;}
     public String getCity() {return this.city;}
     public String getCountry() {return this.country;}
-    public String getWeathermain() {return this.weathermain;}
-    public String getWeatherdescription() {return this.weatherdescription;}
-    public String getWeathericon() {return this.weathericon;}
+    public String getWeatherMain() {return this.weatherMain;}
+    public String getWeatherDesc() {return this.weatherDesc;}
+    public String getWeatherIcon() {return this.weatherIcon;}
     public double getTemp() {return this.temp;}
-    public long getTime() {return this.time;}
 
     public String toString()
     {
-        return "LAT : " + getLat() + "\n" + "LON : " + getLon() + "\n" + "TEMP : " + getTemp() + " C\n" + "WEATHER : " + getWeathermain()
-                + "\n" + "WEATHER DESCRIPTION : " + getWeatherdescription() + "\n" + "CITY : " + getCity() + "\n" + "COUNTRY CODE : " + getCountry()
-                + "\n" + "ICON CODE : " + getWeathericon();
+        return "LAT : " + getLat() + "\n" + "LON : " + getLon() + "\n" + "TEMP : " + getTemp() + " C\n" + "WEATHER : " + getWeatherMain()
+                + "\n" + "WEATHER DESCRIPTION : " + getWeatherDesc() + "\n" + "CITY : " + getCity() + "\n" + "COUNTRY CODE : " + getCountry()
+                + "\n" + "ICON CODE : " + getWeatherIcon();
     }
 
 
