@@ -3,6 +3,7 @@ package mai.uom.weather.location;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
         ResponseParser parser = new ResponseParser();
         parser.setCallBack(new ResponseParser.WeatherResultCallback() {
             public void callBack(WeatherResults w) {
-
+                /** Setting the exact cords to w */
+                w.setLat(lat);
+                w.setLon(lng);
                 /** Show the result dialog **/
                 initializeResultDialog(w).show();
 
                 /** Add to the map a marker with the current data **/
-                mapFragmentContainer.addMarker(lat,lng,w);
+                mapFragmentContainer.addMarker(w);
 
             }
         });
@@ -120,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_restore:
                 /** Call restore activity **/
+                Intent restore = new Intent(MainActivity.this,RestoreActivity.class);
+                startActivity(restore);
                 break;
             default:
                 break;
