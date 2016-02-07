@@ -15,6 +15,6 @@ public class GeoLocationURL extends OpenWeatherURL
 
     public String getURL()
     {
-        return super.rootUrl + "lat=" + this.coor.getLat() + "&lon=" + this.coor.getLon() + "&APPID=" + super.ApiKey;
+        return getRootUrl() + "lat=" + this.coor.getLat() + "&lon=" + this.coor.getLon() + "&APPID=" + getApiKey();
     }
 }
